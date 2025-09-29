@@ -9,15 +9,15 @@ def load_data(ghana_file, ivory_file):
 def plot_scatter(df, country_name):
     plt.scatter(df['Year'], df['Yield'], label=f'{country_name} Yield')
     plt.xlabel('Year')
-    plt.ylabel('Yield')
+    plt.ylabel('Yield (kg/ha)')
     plt.title(f'{country_name} Yield by Year')
     plt.grid(True)
     plt.show()
 
 def plot_bar(df, country_name):
-    plt.bar(df['Year'], df['Area harvested'], label=f'{country_name} Area')
+    plt.bar(df['Year'], df['Area_harvested'], label=f'{country_name} Area')
     plt.xlabel('Year')
-    plt.ylabel('Area harvested')
+    plt.ylabel('Area harvested (ha)')
     plt.title(f'{country_name} Area harvested by Year')
     plt.grid(True)
     plt.show()
@@ -29,12 +29,49 @@ def combined_plots(df_ghana, df_ivory):
     axs[0,0].scatter(df_ghana['Year'], df_ghana['Yield'], color='green')
     axs[0,0].set_title('Ghana Yield by Year')
     axs[0,0].set_xlabel('Year')
-    axs[0,0].set_ylabel('Yield')
+    axs[0,0].set_ylabel('Yield (kg/ha)')
 
     # Ivory scatter
     axs[0,1].scatter(df_ivory['Year'], df_ivory['Yield'], color='brown')
     axs[0,1].set_title('Ivory Coast Yield by Year')
     axs[0,1].set_xlabel('Year')
+    axs[0,1].set_ylabel('Yield (kg/ha)')
+
+    # Ghana bar
+    axs[1,0].bar(df_ghana['Year'], df_ghana['Area_harvested'], color='blue')
+    axs[1,0].set_title('Ghana Area harvested by Year')
+    axs[1,0].set_xlabel('Year')
+    axs[1,0].set_ylabel('Area harvested (ha)')
+
+    # Ivory bar
+    axs[1,1].bar(df_ivory['Year'], df_ivory['Area_harvested'], color='orange')
+    axs[1,1].set_title('Ivory Coast Area harvested by Year')
+    axs[1,1].set_xlabel('Year')
+    axs[1,1].set_ylabel('Area harvested (ha)')
+
+    fig.suptitle('Cocoa Production in Ghana and Ivory Coast (2000–2023)')
+    plt.tight_layout()
+    plt.savefig('cocoa_production.pdf')
+    plt.show()
+
+def main():
+    # Replace with the new CSV filenames
+    ghana_file = 'ghana_cocoa_2000_2023.csv'
+    ivory_file = 'ivorycoast_cocoa_2000_2023.csv'
+
+    df_ghana, df_ivory = load_data(ghana_file, ivory_file)
+
+    # Task 2 plots
+    plot_scatter(df_ghana, 'Ghana')
+    plot_scatter(df_ivory, 'Ivory Coast')
+    plot_bar(df_ghana, 'Ghana')
+    plot_bar(df_ivory, 'Ivory Coast')
+
+    # Task 3 and 4: combined plot with titles, labels, saved to PDF
+    combined_plots(df_ghana, df_ivory)
+
+if __name__ == "__main__":
+    main()    axs[0,1].set_xlabel('Year')
     axs[0,1].set_ylabel('Yield')
 
     # Ghana bar
